@@ -32,7 +32,7 @@ import tensorflow as tf
 import PIL
 from PIL import Image
 import keras
-# import Augmentor
+import Augmentor
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
