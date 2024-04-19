@@ -32,3 +32,25 @@ values
 
 
 -- 2. The above entry has an error as land vehicles do require tolls to be paid. Update the toll to 
+update shipping_mode_dimen
+set Toll_Required=True
+where Ship_Mode = 'DELIVERY TRUCK';
+
+-- 3. Delete the entry for Air India
+delete
+from shipping_mode_dimen
+where Vehicle_Company = 'AIR INDIA';
+
+-- ------------------------------------------------------------------------------------------------------------
+-- Adding and deleting columns
+-- 1. Add another column named 'Vehicle_Number' and its data type to the created table.
+alter table shipping_mode_dimen
+add Vehicle_number varchar(20);
+
+select * from shipping_mode_dimen;
+set sql_safe_updates=0;
+
+-- 2. Update its value to 'MH-05-R1234'
+update shipping_mode_dimen
+set Vehicle_Number = 'MH-05-R1234';
+
