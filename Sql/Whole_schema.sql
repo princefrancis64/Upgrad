@@ -88,3 +88,6 @@ INSERT INTO `market_fact_full` VALUES (1,'Ord_5446','Prod_16','SHP_7609','Cust_1
 
 
 select * from manu;
+
+alter table cust_dimen
+change `Customer Name` Customer_Name varchar(25);

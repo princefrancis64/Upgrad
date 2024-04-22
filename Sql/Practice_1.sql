@@ -31,7 +31,7 @@ values
 ('REGULAR AIR','Air India',false);
 
 
--- 2. The above entry has an error as land vehicles do require tolls to be paid. Update the toll to 
+-- 2. The above entry has an error as land vehicles do require tolls to be paid. Update the toll to True
 update shipping_mode_dimen
 set Toll_Required=True
 where Ship_Mode = 'DELIVERY TRUCK';
@@ -54,3 +54,15 @@ set sql_safe_updates=0;
 update shipping_mode_dimen
 set Vehicle_Number = 'MH-05-R1234';
 
+-- 3. Delete the created column
+alter table shipping_mode_dimen
+drop column Vehicle_Number;
+
+-- --------------------------------------------------------------------------------------------------------------------------------------
+-- Changing the column names and data types
+-- 1. Changing the column name 'Toll_Required' to 'Toll_Amount'. Also change it's datatype to integer
+alter table shipping_mode_dimen
+change Toll_Required Toll_Amount int;
+
+-- 2. The company decides that this additional table won't be useful for data analysis.Remove it.
+drop table shipping_mode_dimen;
