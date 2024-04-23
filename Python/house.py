@@ -24,6 +24,15 @@ name = input("What's your name? ")
 #         print("Who?")
 
 
+# match name:
+#     case "Harry" | "Hermione" | "Ron":
+#         print("Gryffindor")
+#     case "Draco":
+#         print("Slytherin")
+#     case _:
+#         print("Who?")
+
+
 match name:
     case "Harry" | "Hermione" | "Ron":
         print("Gryffindor")
