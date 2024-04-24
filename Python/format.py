@@ -19,7 +19,12 @@ matches = re.search(r"^(.+), *(.+)$",name)
 #     first = matches.group(2)
 #     name = f"{first} {last}"
 
-if matches:
-    name = matches.group(2) + " " + matches.group(1)
+# if matches:
+#     name = matches.group(2) + " " + matches.group(1)
+
+
+###############################################3
+if matches := re.search(r"^(.+), *(.+)$",name):
+    name = matches.group(2)+" "+matches.group(1)
 
 print(f"hello, {name}")
