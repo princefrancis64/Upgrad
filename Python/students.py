@@ -78,11 +78,49 @@
 
 
 import csv
-students =[]
+# students =[]
 
-with open("names.csv") as file:
-    reader = csv.reader(file)
+# with open("names.csv") as file:
+#     reader = csv.reader(file)
+#     for row in reader:
+#         students.append({"name":row[0],"home":row[1]})
+
+# with open("names.csv") as file:
+#     reader = csv.reader(file)
+#     for name,home in reader:
+#         students.append({"name":name,"home":home})
+
+# print(students)
+
+########################
+# import csv
+
+# students = []
+
+# with open("names.csv") as file:
+#     reader = csv.DictReader(file)
+#     for row in reader:
+#         students.append({"name":row["name"],"home":row["home"]})
+
+# for student in sorted(students,key=lambda student:student["name"]):
+#     print(f"{student["name"]} is from {student['home']}")
 
 
-for student in sorted(students,ley=lambdas)
+###########################################################
+# import csv
 
+# name = input("What's your name? ")
+# home = input("Where's your home? ")
+
+# with open("students.csv","a") as file:
+#     writer = csv.writer(file)
+#     writer.writerow([name,home])
+
+##########################################################
+import csv
+name = input("What's your name? ")
+home = input("What's your home? ")
+
+with open("students.csv","a") as file:
+    writer = csv.DictWriter(file,fieldnames=["name","home"])
+    writer.writerow({"name":name,"home":home})

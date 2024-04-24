@@ -52,7 +52,10 @@
 #     for name in sorted(file):
 #         print(name.rstrip())
 
-with open("names.txt") as file:
-    for name in sorted(file,reverse=True):
-        print(name.rstrip())
+# with open("names.txt") as file:
+#     for name in sorted(file,reverse=True):
+#         print(name.rstrip())
+
+
+
 
