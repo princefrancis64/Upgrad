@@ -630,8 +630,29 @@
 # print(total(**coins),"Knuts")
 
 
-def f(*args,**kwargs):
-    print("Positional:",args)
-    print("Named:",kwargs)
+# def f(*args,**kwargs):
+#     print("Positional:",args)
+#     print("Named:",kwargs)
 
-f(100,50,25,89,galleons=26,knuts = 50)
+# f(100,50,25,89,galleons=26,knuts = 50)
+
+
+
+# def f(*args,**kwargs):
+#     print("Positional:",args)
+#     print("Named:",kwargs)
+
+
+# f(100,25,8,78,64,galleons = 25,knuts = 79)
+
+
+# x = [i*i for i in [1,2,3,4]]
+# print(x)
+
+# x = (i*i for i in [1,2,3,4])
+# print(list(x))
+
+
+# import csv
+# csv_gen = csv.reader('prince')
+# print(list(csv_gen))
