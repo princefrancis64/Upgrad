@@ -387,6 +387,89 @@ FROM order_info
 where Profit>1000;
 
 
+-- ADVANCED SQL --------------------------------------
+-- rank demo
+SELECT Customer_Name, Ord_id, ROUND(Sales) AS rounded_sales,
+	RANK() OVER(ORDER BY Sales DESC) AS sales_rank
+FROM market_fact_full AS m
+INNER JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE Customer_Name = 'RICK WILSON';
+
+
+SELECT Customer_Name,
+	Ord_id, discount, 
+    RANK() OVER(ORDER BY discount DESC) AS disc_rank,
+    DENSE_RANK() OVER(ORDER BY discount DESC) AS disc_dense_rank,
+    PERCENT_RANK() OVER(ORDER BY discount DESC) AS disc_percent_rank
+FROM market_fact_full AS m
+INNER JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE Customer_Name = 'RICK WILSON';
+
+
+
+with shipping_summary as (
+select Ship_Mode,
+		Month(Ship_Date) as shipping_month,
+        count(*) as shipments
+from shipping_dimen
+group by Ship_Mode,
+		shipping_month
+)
+SELECT *,
+	RANK() OVER(PARTITION BY Ship_Mode ORDER BY Shipments DESC) AS shipping_rank,
+    DENSE_RANK() OVER(PARTITION BY Ship_Mode ORDER BY Shipments DESC) AS shipping_dense_rank,
+    ROW_NUMBER() OVER(PARTITION BY Ship_Mode ORDER BY Shipments DESC) AS shipping_row_number
+FROM shipping_summary;
+
+
+-- Named window examples
+SELECT Ord_id,
+	discount,
+    Customer_Name,
+    RANK() OVER w AS disc_rank,
+    DENSE_RANK() OVER w AS disc_dense_rank,
+    ROW_NUMBER() OVER w AS disc_row_num
+FROM market_fact_full AS m
+INNER JOIN Cust_dimen As c
+ON m.Cust_id = c.Cust_id
+WHERE Customer_Name = 'RICK WILSON'
+WINDOW w AS (ORDER BY discount DESC);
+
+
+SELECT Ord_id,
+	discount,
+    Customer_Name,
+    RANK() OVER w AS disc_rank,
+    DENSE_RANK() OVER w AS disc_dense_rank,
+    ROW_NUMBER() OVER w AS disc_row_num
+FROM market_fact_full AS m
+INNER JOIN Cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE Customer_Name = 'RICK WILSON'
+WINDOW w AS (ORDER BY discount DESC);
+
+
+-- Frames example
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
