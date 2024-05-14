@@ -452,17 +452,190 @@ WINDOW w AS (ORDER BY discount DESC);
 
 
 -- Frames example
+with daily_shipping_summary AS (
+	SELECT Ship_Date, sum(Shipping_Cost) AS daily_total
+FROM market_fact_full AS m
+INNER JOIN shipping_dimen AS s
+ON m.Ship_id=  s.Ship_id
+GROUP BY Ship_Date
+)SELECT *,
+	SUM(daily_total) OVER w1 AS running_total,
+    SUM(daily_total) OVER w2 AS moving_average
+FROM daily_shipping_summary
+WINDOW w1 AS (ORDER BY Ship_Date ROWS UNBOUNDED PRECEDING),
+w2 AS (ORDER BY Ship_Date ROWS 6 PRECEDING);
+
+
+-- Lead and Lag Example
+WITH cust_order AS(
+	SELECT c.Customer_Name,
+	m.Ord_id,
+    o.Order_Date
+FROM market_fact_full AS m
+LEFT JOIN orders_dimen AS o
+ON m.Ord_id = o.Ord_id
+LEFT JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE Customer_Name = 'RICK WILSON'
+GROUP BY c.Customer_Name,m.Ord_id,o.Order_Date
+),next_summary AS(
+SELECT *,
+	LEAD(Order_Date,1,'2015-01-01') OVER (ORDER BY Order_Date,Ord_id) AS next_order_date
+ FROM cust_order   
+    )SELECT *,
+    DATEDIFF(next_order_date,order_Date) AS days_diff
+FROM next_summary;
+    
+    
+
+    
+    
+WITH cust_order AS(
+	SELECT c.Customer_Name,
+	m.Ord_id,
+    o.Order_Date
+FROM market_fact_full AS m
+LEFT JOIN orders_dimen AS o
+ON m.Ord_id = o.Ord_id
+LEFT JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE Customer_Name = 'RICK WILSON'
+GROUP BY c.Customer_Name,m.Ord_id,o.Order_Date
+),next_summary AS(
+SELECT *,
+	LAG(Order_Date,1,'2015-01-01') OVER (ORDER BY Order_Date,Ord_id) AS prev_order_date
+ FROM cust_order   
+    )SELECT *,
+    DATEDIFF(order_Date,prev_order_date) AS days_diff
+FROM next_summary;
+
+
+
+SELECT Market_fact_id, Profit, 
+	CASE 
+		WHEN Profit<-500 THEN "Huge Loss"
+        WHEN Profit BETWEEN -500 AND 0 THEN "Bearbale Loss"
+        WHEN Profit BETWEEN 0 AND 500 THEN "Decent Profit"
+        WHEN Profit>500 THEN "Great Profit"
+	END AS Profit_Type
+FROM market_fact_full;
+    
+
+    
+-- Classify customers on the following criteria
+-- Top 10% of customers as Gold
+-- Top 40% of customers as Silver
+-- Rest 50% of customers as Bronze
+
+WITH cust_summary AS (
+SELECT m.Cust_id,c.Customer_Name,
+	ROUND(SUM(m.Sales),2) AS total_sales,
+    PERCENT_RANK() OVER(ORDER BY ROUND(SUM(m.Sales),2)) AS perc_rank
+FROM market_fact_full AS m
+LEFT JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+GROUP BY Cust_id
+    )
+SELECT *,
+	CASE
+		WHEN perc_rank>0.9 THEN "GOLD"
+        WHEN perc_rank BETWEEN 0.5 AND 0.9 THEN "Silver"
+        ELSE "Bronze"
+	END AS Cust_type
+FROM cust_summary;
+    
+
+-- USER DEFINED FUNCTIONS
+DELIMITER $$
+
+CREATE FUNCTION ProfitType(Profit INT)
+RETURNS VARCHAR(30) DETERMINISTIC
+
+BEGIN
+DECLARE message VARCHAR(30);
+IF Profit<-500 THEN
+	SET message='Huge Loss';
+ELSEIF Profit BETWEEN -500 AND 0 THEN
+	SET message = 'Bearable Loss';
+ELSEIF Profit BETWEEN 0 AND 500 THEN
+	SET message='Decent Profit';
+ELSE 
+	SET message='Great Profit';
+END IF;
+
+RETURN message;
+END;
+$$
+DELIMITER ;
+
+
+SELECT ProfitType(600) AS Function_output;
+
+
+-- STORED PROCEDURES
+
+DELIMITER $$
+CREATE PROCEDURE get_sales_customers(sales_input INT)
+BEGIN
+SELECT DISTINCT m.Cust_id,ROUND(Sales) AS sales_amount, Customer_Name
+FROM market_fact_full AS m
+INNER JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE ROUND(Sales) > sales_input
+ORDER BY sales_amount;
+END $$
+DELIMITER ;
+
+
+CALL get_sales_customers(600);
 
 
 
 
+-- 2
+DELIMITER $$
+CREATE PROCEDURE get_sales_customers(sales_input INT)
 
+BEGIN
+SELECT DISTINCT m.Cust_id,ROUND(Sales) AS sales_amount, Customer_Name
+FROM market_fact_full AS m
+INNER JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE ROUND(Sales) > sales_input
+ORDER BY sales_amount;
+END $$
+DELIMITER ;
 
+CALL get_sales_customers(600);
 
+--3
+DELIMITER $$
+CREATE PROCEDURE get_sales_customers(sales_input INT)
 
+BEGIN
+SELECT DISTINCT m.Cust_id,ROUND(Sales) AS sales_amount, Customer_Name
+FROM market_fact_full AS m
+INNER JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE ROUND(Sales) > sales_input
+ORDER BY sales_amount;
+END $$
+DELIMITER ;
 
+CALL get_sales_customers(600);
 
-
+-- 4
+DELIMITER $$
+CREATE PROCEDURE get_sales_customers(sales_input INT)
+BEGIN
+SELECT DISTINCT m.Cust_id,ROUND(Sales) AS sales_amount, Customer_Name
+FROM market_fact_full AS m
+INNER JOIN cust_dimen AS c
+ON m.Cust_id = c.Cust_id
+WHERE ROUND(Sales) > sales_input
+ORDER BY sales_amount;
+END $$
+DELIMITER ;
 
 
 
