@@ -592,6 +592,109 @@ DELIMITER ;
 
 select ProfitType(400) as func_output;
 
+create index index_name
+on table(column1,column2);
+
+create index index_name
+on table(column1);
+
+alter table tablename
+add index indexname(column1);
+
+KEY `keyname` (column_name);
+
+UNIQUE KEY `keyname` (column_name);
+
+alter table tablename
+drop index indexname;
+
+alter table tablename
+add index indexname(column1,column2,column3);
+
+create index indexname
+on table(column1,column2,column3);
+
+DELIMITER $$
+CREATE PROCEDURE procedure_name(param)
+BEGIN
+<SQL STATEMENTS>
+END $$
+DELIMITER ;
+
+CALL procedure_name(argu);
+
+DELIMITER $$
+CREATE FUNCTION func_name(param1,param2)
+RETURNS datatype [characteristic]
+
+BEGIN
+<SQL STATEMENTS>
+RETURN expression;
+END; $$
+DELIMITER ;
+
+
+lag(exp,offset,default);
+
+
+FOREIGN KEY (column name) REFERENCES TABLENAME(COLUMNNAME)
+
+
+CREATE TABLE `Department`(
+	DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(100)
+);
+
+FOREIGN KEY (DeptID) REFERENCES Department(DeptID);
+
+-- alter commands
+ALTER TABLE vehicles
+ADD model VARCHAR(100) NOT NULL;
+
+ALTER TABLE vehicles
+ADD model VARCHAR(30) NOT NULL;
+
+ALTER TABLE vehicles
+ADD model VARCHAR(30),
+ADD note VARCHAR(255);
+
+
+ALTER TABLE vehicles
+ADD model VARCHAR(30) NOT NULL,
+ADD note VARCHAR(25);
+
+ALTER TABLE vehicles
+MODIFY note VARCHAR(30) NOT NULL;
+
+ALTER TABLE vehicles
+MODIFY year smallint not null,
+modify color varchar(20) null after make;
+
+alter table vehicles
+change column note vehicleCondition varchar(30) not null;
+
+alter table vehicles
+drop column vehicleCondition;
+
+alter table vehicles
+rename to cars;
+
+
+delete from customers
+where country = 'Norway';
+
+delete from tablename;
+
+truncate table tablename;
+
+
+truncate table tablename;
+
+UNIQUE KEY 'Order_Number_Idx' (Order_Number);
+
+
+use market_star_schema;
+
 
 
 
