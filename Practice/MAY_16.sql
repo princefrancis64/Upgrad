@@ -253,6 +253,38 @@ truncate table tablename;
 alter table tablename
 change column oldname newolname datatype;
 
+use market_star_schema;
+
+DELIMITER $$
+
+CREATE PROCEDURE get_customers()
+
+BEGIN
+	SELECT * FROM cust_dimen;
+END $$
+
+DELIMITER ;
+
+
+CALL get_customers();
+select * from cust_dimen;
+
+describe cust_dimen;
+
+DROP PROCEDURE get_customers;
+
+DELIMITER $$
+
+CREATE PROCEDURE find_customers(IN State1 VARCHAR(30))
+BEGIN
+	SELECT * FROM cust_dimen
+    WHERE State = State1;
+END $$
+DELIMITER ;
+
+
+CALL find_customers('Karnataka');
+
 
 
 
