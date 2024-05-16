@@ -160,3 +160,99 @@ DELIMITER ;
 
 
 
+CREATE INDEX index_name
+ON TABLE(column1,column2,column3);
+
+
+alter table table_name
+add index index_name(column1,column2,column3);
+
+
+CREATE INDEX index_name
+ON TABLE(column1,column2,colum3);
+
+
+ALTER TABLE table_name
+ADD INDEX index_name(column1,column2,column3);
+
+
+ALTER TABLE table_name
+DROP INDEX index_name;
+
+CREATE TABLE tablename(
+column1,
+column2,
+KEY index_name(column1)
+
+);
+
+
+
+DELIMITER $$
+CREATE FUNCTION func_name(param_list)
+RETURNS datatype [characteristic]
+
+BEGIN
+<SQL STATEMENTS>
+RETURN expression;
+END; $$
+
+DELIMITER ;
+
+SELECT funct_name(argu);
+
+
+DELIMITER $$
+CREATE PROCEDURE procedure_name(paramlist)
+
+BEGIN
+	<SQL STATEMENTS>
+END $$
+
+DELIMITER ;
+
+
+CALL procedure_name(argu);
+
+
+
+INSERT INTO tablename(column1,column2,column3)
+VALUES (value1,value2,value3),
+(value1,value2,value3);
+
+
+update tablename
+set columnname = options
+where condition;
+
+rank() over(partition by expresssion order by expression [ASC|DESC]) as alias
+
+alter table tablename
+add columnename datatype,
+add column2 datatype;
+
+alter table tablename
+modify `column1` datatype,
+modify column2 datatype;
+
+
+alter table tablename
+change column oldname newname datatype;
+
+
+alter table tablename
+rename to newtablename;
+
+
+drop table tablename;
+
+delete table tablename;
+
+truncate table tablename;
+
+alter table tablename
+change column oldname newolname datatype;
+
+
+
+
